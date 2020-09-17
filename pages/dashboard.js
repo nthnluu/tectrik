@@ -33,11 +33,11 @@ const Dashboard = () => {
         <section>
             <Container maxWidth="xs">
                 <img alt={session.name} src={session.picture} className="mx-auto rounded-full h-24 w-24 mb-4"/>
-                <Typography variant="h4" gutterBottom className="text-center">
+                <Typography variant="h4" gutterBottom className="text-center text-gray-800">
                     Welcome, {session.name}
                 </Typography>
             </Container>
-            <Box mt={4}>
+            <Box my={8}>
                 <Container maxWidth="lg">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <Card image="track_meals.svg" title="Plan your meals" caption="Create a customized meal plan
