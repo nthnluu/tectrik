@@ -1,0 +1,10 @@
+/* purgecss start ignore */
+@tailwind  base;
+@tailwind  components;
+
+button:focus {
+    @apply outline-none
+}
+/* purgecss end ignore */
+
+@tailwind  utilities;

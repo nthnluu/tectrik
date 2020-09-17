@@ -1,0 +1,28 @@
+{
+  "name": "nextjs",
+  "version": "4.0.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.1.5",
+    "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "^4.9.1",
+    "clsx": "latest",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
+    "next": "latest",
+    "next-auth": "^3.1.0",
+    "pg": "^8.3.3",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "^1.8.8"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  }
+}
