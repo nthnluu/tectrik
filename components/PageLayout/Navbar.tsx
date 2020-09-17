@@ -15,7 +15,7 @@ import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {Avatar} from "@material-ui/core";
 
@@ -25,11 +25,15 @@ const useStyles = makeStyles((theme) =>
             flexGrow: 1,
             marginBottom: 32
         },
+        avatarSmall: {
+            width: theme.spacing(4),
+            height: theme.spacing(4),
+        },
         menuButton: {
             marginRight: theme.spacing(2),
         },
         title: {
-            flexGrow: 1,
+            flexGrow: 1
         },
     }),
 );
@@ -54,13 +58,19 @@ export default function MenuAppBar({isLoading, title, session}) {
     return (
         <>
             <div className={classes.root}>
-                <AppBar position="fixed" color="inherit" elevation={0} className="border-b border-gray-300">
+                <AppBar position="static" color="inherit" elevation={0} className="border-b border-gray-300">
                     <Toolbar>
-                        <IconButton edge="start" onClick={() => toggleDrawer(true)} className={classes.menuButton + " focus:outline-none"} color="inherit" aria-label="menu">
+                        <IconButton edge="start" onClick={() => toggleDrawer(true)}
+                                    className={classes.menuButton + " focus:outline-none"} color="inherit"
+                                    aria-label="menu">
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            {title}
+                        <Typography variant="h5" className={classes.title}>
+                            <div className="flex justify-start items-center ">
+                                <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-2"/>
+                                <strong className="tracking-wide text-gray-800">Tectrik</strong>
+                            </div>
+
                         </Typography>
 
                         <div>
@@ -71,7 +81,7 @@ export default function MenuAppBar({isLoading, title, session}) {
                                 onClick={handleMenu}
                                 color="inherit"
                             >
-                                <Avatar alt={session.name} src={session.picture} />
+                                <Avatar className={classes.avatarSmall} alt={session.name} src={session.picture}/>
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -88,12 +98,15 @@ export default function MenuAppBar({isLoading, title, session}) {
                                 open={open}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={() => {handleClose(); router.push('/api/auth/signout')}}>Sign out</MenuItem>
+                                <MenuItem onClick={() => {
+                                    handleClose();
+                                    router.push('/api/auth/signout')
+                                }}>Sign out</MenuItem>
                             </Menu>
                         </div>
 
                     </Toolbar>
-                    {isLoading ? <LinearProgress /> : null}
+                    {isLoading ? <LinearProgress/> : null}
 
                 </AppBar>
             </div>
@@ -103,13 +116,15 @@ export default function MenuAppBar({isLoading, title, session}) {
                     <List>
                         <ListItem button onClick={() => {
                             handleClose();
-                            router.push('/search')}}>
+                            router.push('/search')
+                        }}>
                             <ListItemIcon><SearchIcon/></ListItemIcon>
                             <ListItemText primary="Create new search"/>
                         </ListItem>
                         <ListItem button onClick={() => {
                             handleClose();
-                            router.push('/dashboard')}}>
+                            router.push('/dashboard')
+                        }}>
                             <ListItemIcon><HistoryIcon/></ListItemIcon>
                             <ListItemText primary="Previous searches"/>
                         </ListItem>

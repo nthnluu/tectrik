@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
                     <link rel="stylesheet"
                           href="https://fonts.googleapis.com/css?family=Product+Sans"/>
                 </Head>
-                <body style={{backgroundColor: '#F8F9FA'}}>
+                <body>
                 <Main/>
                 <NextScript/>
                 </body>

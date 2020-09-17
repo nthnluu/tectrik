@@ -1,24 +1,33 @@
 import React, {useState} from "react";
 import {useSession} from "next-auth/client";
 import Navbar from "./Navbar";
+import Container from "@material-ui/core/Container";
+import PageContext from "./PageContext";
+import Head from "next/head";
+
 
 interface Props {
     title: string;
+    maxWidth: "xl" | false;
     isPublic?: boolean;
+    children: React.ReactChild;
 }
 
-const PageLayout: React.FC<Props> = ({title, isPublic}) => {
+const PageLayout: React.FC<Props> = ({title, isPublic, maxWidth, children}) => {
     const [isLoading, toggleIsLoading] = useState(false)
     const [ session, loading ] = useSession()
 
     if (loading) {
-        return <></>
+        return null
     } else if (session || isPublic) {
         return (<>
+            <Head>
+                <title>{title}</title>
+            </Head>
             <Navbar isLoading={isLoading} title={title} session={session}/>
-            <div className="mt-24">
-                <p>{JSON.stringify(session)}</p>
-            </div>
+            <Container maxWidth={maxWidth}>
+                {children}
+            </Container>
         </>)
     } else {
         window.location.href = '/'
