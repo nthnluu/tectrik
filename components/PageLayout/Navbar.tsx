@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import HistoryIcon from '@material-ui/icons/History';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Drawer from "@material-ui/core/Drawer";
@@ -38,6 +37,26 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
+const SearchBar: React.FC<{}> = () => {
+    const [isFocused, toggleFocused] = useState(false)
+
+    return <>
+        <div className="hidden md:block">
+            <div className={"ml-6 rounded-lg overflow-hidden flex justify-start border transition-all duration-150 " + (isFocused ? "bg-white border-gray-200 shadow" : "bg-gray-200 border-transparent")}>
+                <IconButton>
+                    <SearchIcon/>
+                </IconButton>
+                <input onFocus={() => toggleFocused(true)} onBlur={() => toggleFocused(false)} placeholder="Search for apps, users, documents, and more" className="p-2 bg-transparent focus:outline-none" style={{width: '28rem'}}/>
+            </div>
+        </div>
+        <div className="hidden">
+            <IconButton>
+                <SearchIcon/>
+            </IconButton>
+        </div>
+
+    </>
+}
 export default function MenuAppBar({isLoading, title, session}) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -65,13 +84,16 @@ export default function MenuAppBar({isLoading, title, session}) {
                                     aria-label="menu">
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h5" className={classes.title}>
-                            <div className="flex justify-start items-center ">
-                                <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-2"/>
-                                <strong className="tracking-wide text-gray-800">Tectrik</strong>
-                            </div>
+                        <div className="flex-grow flex items-center justify-start">
+                            <Typography variant="h5">
+                                <div className="flex justify-start items-center ">
+                                    <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-2"/>
+                                    <strong className="tracking-wide text-gray-800">Tectrik</strong>
+                                </div>
+                            </Typography>
+                            <SearchBar/>
+                        </div>
 
-                        </Typography>
 
                         <div>
                             <IconButton

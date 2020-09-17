@@ -12,7 +12,9 @@ const theme = createMuiTheme({
         fontFamily: `"Product Sans", "Helvetica", "Arial", sans-serif`,
         body2: {
             fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-            fontSize: 16
+            fontSize: 15,
+            color: '#5F6367',
+            lineHeight: 1.2
         }
     },
     palette: {
