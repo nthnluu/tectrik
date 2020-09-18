@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import {useSession} from "next-auth/client";
 import Navbar from "./Navbar";
 import Container from "@material-ui/core/Container";
-import PageContext from "./PageContext";
 import Head from "next/head";
+import {SidebarConfigType} from "../../src/types/SidebarConfig";
+import {Box} from "@material-ui/core";
 
 
 interface Props {
@@ -11,9 +12,15 @@ interface Props {
     maxWidth: "xl" | false;
     isPublic?: boolean;
     children: React.ReactChild;
+    showLogo?: boolean;
+    sidebarConfig: SidebarConfigType[]
 }
 
-const PageLayout: React.FC<Props> = ({title, isPublic, maxWidth, children}) => {
+const PageLayout: React.FC<Props> = ({title, showLogo, isPublic,
+                                         maxWidth,
+    sidebarConfig,
+                                         children
+}) => {
     const [isLoading, toggleIsLoading] = useState(false)
     const [ session, loading ] = useSession()
 
@@ -24,10 +31,13 @@ const PageLayout: React.FC<Props> = ({title, isPublic, maxWidth, children}) => {
             <Head>
                 <title>{title}</title>
             </Head>
-            <Navbar isLoading={isLoading} title={title} session={session}/>
-            <Container maxWidth={maxWidth}>
-                {children}
-            </Container>
+            <Navbar sidebarConfig={sidebarConfig} showLogo={showLogo} isLoading={isLoading} title={title} session={session}/>
+            <Box mb={8}>
+                <Container maxWidth={maxWidth}>
+                    {children}
+                </Container>
+            </Box>
+
         </>)
     } else {
         window.location.href = '/'

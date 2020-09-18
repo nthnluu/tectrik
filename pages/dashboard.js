@@ -5,16 +5,18 @@ import {useSession} from "next-auth/client";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import { useRouter } from 'next/router'
 
 
-const Card = ({title, caption, image, buttonLabel}) => {
-    return <div variant="outlined" className="border border-gray-300 rounded-lg">
+const Card = ({title, caption, image, buttonLabel, buttonHref}) => {
+    const router = useRouter()
+    return <div variant="outlined" className="border border-light-gray rounded-lg">
         <Box p={3}>
             <img src={image} alt="" className="h-56 mx-auto mb-6"/>
             <Typography variant="h5" gutterBottom>{title}</Typography>
             <Typography variant="body2">{caption}</Typography>
             <div className="mt-6">
-                <Button disableElevation variant="contained" color="primary">
+                <Button disableElevation variant="contained" color="primary" onClick={() => router.push(buttonHref)}>
                     {buttonLabel}
                 </Button>
             </div>
@@ -29,7 +31,7 @@ const Dashboard = () => {
 
     if (loading) return null
 
-    return (<PageLayout title="Dashboard" maxWidth="xl">
+    return (<PageLayout title="Dashboard" maxWidth="xl" showLogo>
         <section>
             <Container maxWidth="xs">
                 <img alt={session.name} src={session.picture} className="mx-auto rounded-full h-24 w-24 mb-4"/>
@@ -45,7 +47,7 @@ const Dashboard = () => {
                         <Card image="workout.svg" title="Track your workouts" caption="Generate and keep track of your
                         workout plans at home or at the gym." buttonLabel="Go to Workout Tracker"/>
                         <Card image="porn.svg" title="Watch porn" caption="Privately store your favorite porn videos
-                        and access them anywhere." buttonLabel="Go to Porn Locker"/>
+                        and access them anywhere." buttonLabel="Go to Porn Locker" buttonHref="/porn"/>
                     </div>
                 </Container>
             </Box>
