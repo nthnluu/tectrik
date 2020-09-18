@@ -46,7 +46,7 @@ const SearchBar: React.FC<{}> = () => {
                 <IconButton>
                     <SearchIcon/>
                 </IconButton>
-                <input onFocus={() => toggleFocused(true)} onBlur={() => toggleFocused(false)} placeholder="Search for apps, users, documents, and more" className="p-2 bg-transparent focus:outline-none" style={{width: '28rem'}}/>
+                <input onFocus={() => toggleFocused(true)} onBlur={() => toggleFocused(false)} placeholder="Search for apps, users, documents, and more" className="p-2 bg-transparent focus:outline-none text-lg font-light" style={{width: '28rem'}}/>
             </div>
         </div>
         <div className="hidden">
@@ -86,9 +86,9 @@ export default function MenuAppBar({isLoading, title, session}) {
                         </IconButton>
                         <div className="flex-grow flex items-center justify-start">
                             <Typography variant="h5">
-                                <div className="flex justify-start items-center ">
-                                    <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-2"/>
-                                    <strong className="tracking-wide text-gray-800">Tectrik</strong>
+                                <div className="flex justify-start items-center font-semibold text-gray-800">
+                                    <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-1"/>
+                                   Tectrik
                                 </div>
                             </Typography>
                             <SearchBar/>
