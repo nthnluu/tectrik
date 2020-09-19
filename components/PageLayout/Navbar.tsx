@@ -39,6 +39,17 @@ const useStyles = makeStyles((theme) =>
         title: {
             flexGrow: 1
         },
+        listItem: {
+            borderTopRightRadius: 100,
+            borderBottomRightRadius: 100,
+            "&$selected": {
+                color: '#1B67D2',
+                backgroundColor: "#E5EFFC",
+                "&:hover": {
+                    backgroundColor: "#ebf3fd",
+                },
+            },
+        }
     }),
 );
 
@@ -47,11 +58,14 @@ const SearchBar: React.FC<{}> = () => {
 
     return <>
         <div className="hidden md:block">
-            <div className={"ml-6 rounded-lg overflow-hidden flex justify-start border transition-all duration-150 " + (isFocused ? "bg-white border-gray-200 shadow" : "bg-light-gray-bg border-transparent")}>
+            <div
+                className={"ml-6 rounded-lg overflow-hidden flex justify-start border transition-all duration-150 " + (isFocused ? "bg-white border-gray-200 shadow" : "bg-light-gray-bg border-transparent")}>
                 <IconButton>
                     <SearchIcon/>
                 </IconButton>
-                <input onFocus={() => toggleFocused(true)} onBlur={() => toggleFocused(false)} placeholder="Search" spellCheck="false" className="p-2 bg-transparent focus:outline-none text-lg font-light" style={{width: '28rem'}}/>
+                <input onFocus={() => toggleFocused(true)} onBlur={() => toggleFocused(false)} placeholder="Search"
+                       spellCheck="false" className="p-2 bg-transparent focus:outline-none text-lg font-light"
+                       style={{width: '28rem'}}/>
             </div>
         </div>
         <div className="hidden">
@@ -80,7 +94,7 @@ const defaultSidebar = [
         label: 'Meal Planner',
         icon: <FastfoodIcon/>,
         selected: false,
-        link: '/porn'
+        link: '/meals'
     },
     {
         label: 'Workout Tracker',
@@ -98,7 +112,7 @@ interface Props {
     sidebarConfig: SidebarConfigType[]
 }
 
-const Navbar:React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig = defaultSidebar})  => {
+const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig = defaultSidebar}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -129,7 +143,8 @@ const Navbar:React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCon
                         <div className="flex-grow flex items-center justify-start">
                             <Typography variant="h5">
                                 <div className="flex justify-start items-center text-gray-800">
-                                    {showLogo ? <> <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png" className="h-6 mr-1"/>
+                                    {showLogo ? <> <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png"
+                                                        className="h-6 mr-1"/>
                                         Tectrik</> : title}
 
                                 </div>
@@ -180,7 +195,8 @@ const Navbar:React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCon
                 <div style={{width: '18rem'}} className="pr-2">
                     <List className="space-y-1 relative h-full">
                         {/*// @ts-ignore*/}
-                        {sidebarConfig.map(item =>  <ListItem button selected={item.selected} onClick={() => {
+                        {sidebarConfig.map(item => <ListItem button className={classes.listItem}
+                                                             selected={item.selected} onClick={() => {
                             handleClose();
                             router.push(item.link)
                         }}>

@@ -5,10 +5,10 @@ import {useSession} from "next-auth/client";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 
-const Card = ({title, caption, image, buttonLabel, buttonHref}) => {
+const Card = ({title, caption, image, appName, href}) => {
     const router = useRouter()
     return <div variant="outlined" className="border border-light-gray rounded-lg">
         <Box p={3}>
@@ -16,8 +16,8 @@ const Card = ({title, caption, image, buttonLabel, buttonHref}) => {
             <Typography variant="h5" gutterBottom>{title}</Typography>
             <Typography variant="body2">{caption}</Typography>
             <div className="mt-6">
-                <Button disableElevation variant="contained" color="primary" onClick={() => router.push(buttonHref)}>
-                    {buttonLabel}
+                <Button disableElevation variant="contained" color="primary" onClick={() => router.push(href)}>
+                    Go to {appName}
                 </Button>
             </div>
 
@@ -27,9 +27,17 @@ const Card = ({title, caption, image, buttonLabel, buttonHref}) => {
 
 const Dashboard = () => {
 
-    const [ session, loading ] = useSession()
+    const [session, loading] = useSession()
 
     if (loading) return null
+
+    const pageCards = [{
+        title: "Manage resumes",
+        caption: "Keep track of your information and generate beautiful resumes.",
+        appName: "Resumes",
+        href: "/resumes",
+        image: "resume.svg"
+    }]
 
     return (<PageLayout title="Dashboard" maxWidth="xl" showLogo>
         <section>
@@ -42,23 +50,21 @@ const Dashboard = () => {
             <Box my={8}>
                 <Container maxWidth="lg">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <Card image="track_meals.svg" title="Plan your meals" caption="Create a customized meal plan
-                        and keep track of your goals." buttonLabel="Go to Meal Planner"/>
-                        <Card image="workout.svg" title="Track your workouts" caption="Generate and keep track of your
-                        workout plans at home or at the gym." buttonLabel="Go to Workout Tracker"/>
-                        <Card image="porn.svg" title="Watch porn" caption="Privately store your favorite porn videos
-                        and access them anywhere." buttonLabel="Go to Porn Locker" buttonHref="/porn"/>
+                        {pageCards.map(({title, caption, appName, href, image}, index) => <Card key={index}
+                                                                                                          image={image}
+                                                                                                          title={title}
+                                                                                                          caption={caption}
+                                                                                                          appName={appName}
+                                                                                                          href={href}/>)}
                     </div>
                 </Container>
             </Box>
-
 
 
         </section>
 
     </PageLayout>)
 }
-
 
 
 export default Dashboard

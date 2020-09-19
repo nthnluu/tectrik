@@ -5,6 +5,15 @@
 button:focus {
     @apply outline-none
 }
+
+.paperCard {
+    @apply border border-light-gray rounded-lg
+}
+
+.paperCardActive {
+    @apply bg-white shadow-lg rounded-lg border border-light-gray
+}
+
 /* purgecss end ignore */
 
 @tailwind  utilities;

@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
                     <script src="https://kit.fontawesome.com/aeb9fcb31a.js" crossOrigin="anonymous"/>
                     <link
                         rel="stylesheet"
-                        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+                        href="https://fonts.googleapis.com/css?family=Inter:300,400,500,700&display=swap"
                     />
                     <link rel="stylesheet"
                           href="https://fonts.googleapis.com/css?family=Product+Sans"/>
