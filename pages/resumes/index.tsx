@@ -61,7 +61,7 @@ const Resumes = ({session}) => {
                                                     <h3 className="text-lg text-gray-900">{experience.title}</h3>
                                                     <h4 className="font-body font-medium text-gray-700">{experience.start_date} - {experience.end_date}</h4>
                                                 </div>
-                                                <p className="text-gray-600 whitespace-pre">
+                                                <p className="text-gray-600 whitespace-pre font-body">
                                                     {experience.responsibilities}
                                                 </p>
                                             </Box>
