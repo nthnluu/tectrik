@@ -35,7 +35,7 @@ const PageLayout: React.FC<Props> = ({title, showLogo, isPublic, is_loading,
                 <title>{title}</title>
             </Head>
             <Navbar sidebarConfig={sidebarConfig} showLogo={showLogo} isLoading={isLoading} title={title} session={session}/>
-            <Box mb={8}>
+            <Box mb={8} pt={8}>
                 <Container maxWidth={maxWidth}>
                     {children}
                 </Container>

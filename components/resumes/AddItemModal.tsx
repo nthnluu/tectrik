@@ -102,7 +102,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                 <AppBar className="border-b border-light-gray relative" position="relative" color="transparent"
                         elevation={0}>
                     <Toolbar>
-                        <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
+                        <IconButton edge="start" color="inherit" disabled={isLoading} onClick={onClose} aria-label="close">
                             <CloseIcon/>
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>

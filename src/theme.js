@@ -34,7 +34,7 @@ const theme = createMuiTheme({
             textTransform: 'none',
             fontWeight: 600,
         },
-        fontFamily: `"Product Sans", "Helvetica", "Arial", sans-serif`,
+        fontFamily: `"Google Sans", "Helvetica", "Arial", sans-serif`,
     },
     palette: {
         primary: {

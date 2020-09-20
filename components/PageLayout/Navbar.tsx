@@ -80,7 +80,7 @@ const SearchBar: React.FC<{}> = () => {
 const defaultSidebar = [
     {
         label: 'Dashboard',
-        icon: <HomeIcon color="primary"/>,
+        icon: <HomeIcon/>,
         selected: true,
         link: '/'
     },
@@ -133,7 +133,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
     return (
         <>
             <div className={classes.root}>
-                <AppBar position="static" color="inherit" elevation={0} className="border-b border-light-gray">
+                <AppBar position="fixed" color="inherit" elevation={0} className="border-b border-light-gray">
                     <Toolbar>
                         <IconButton edge="start" onClick={() => toggleDrawer(true)}
                                     className={classes.menuButton + " focus:outline-none"} color="inherit"

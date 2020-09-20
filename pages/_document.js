@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
                         href="https://fonts.googleapis.com/css?family=Inter:300,400,500,700&display=swap"
                     />
                     <link rel="stylesheet"
-                          href="https://fonts.googleapis.com/css?family=Product+Sans"/>
+                          href="https://fonts.googleapis.com/css?family=Google+Sans"/>
                 </Head>
                 <body>
                 <Main/>

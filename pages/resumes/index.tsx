@@ -56,15 +56,15 @@ const Resumes = ({session}) => {
                                             setCurrentItem(experience)
                                             toggleAddModal(true)
                                         }}>
-                                            <Box p={2}>
-                                                <div className="mb-1">
-                                                    <h3 className="text-lg text-gray-900">{experience.title}</h3>
+                                            <div className="p-6">
+                                                <div className="mb-4">
+                                                    <h3 className="text-lg text-gray-800 font-medium">{experience.title}</h3>
                                                     <h4 className="font-body font-medium text-gray-700">{experience.start_date} - {experience.end_date}</h4>
                                                 </div>
-                                                <p className="text-gray-600 whitespace-pre font-body">
-                                                    {experience.responsibilities}
-                                                </p>
-                                            </Box>
+                                                <ul className="text-gray-600 font-body list-disc ml-4">
+                                                    {experience.responsibilities.split("- ").map(responsibility => responsibility.length > 0 ? <li className="mb-1">{responsibility}</li> : null)}
+                                                </ul>
+                                            </div>
                                         </CardActionArea>
                                     </li>)}
 

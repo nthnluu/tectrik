@@ -11,19 +11,19 @@ export const SidebarConfig = (selected) => {
     return [
         {
             label: 'Weekly Plan',
-            icon: <ViewWeekIcon color={selected === 'week' ? "primary" : "inherit"}/>,
+            icon: <ViewWeekIcon />,
             selected: selected === 'week',
             link: '/meals'
         },
         {
             label: 'My Goals',
-            icon: <TimelineIcon color={selected === 'goals' ? "primary" : "inherit"}/>,
+            icon: <TimelineIcon />,
             selected: selected === 'goals',
             link: '/porn/goals'
         },
         {
             label: 'Shopping List',
-            icon: <ShoppingCartIcon color={selected === 'list' ? "primary" : "inherit"}/>,
+            icon: <ShoppingCartIcon />,
             selected: selected === 'list',
             link: '/porn/list'
         }
