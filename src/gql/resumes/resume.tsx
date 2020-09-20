@@ -7,7 +7,7 @@ export const InsertExperience = gql`mutation NewExperience($userId: Int!, $title
 }`
 
 export const PageContent = gql`subscription PageContent ($userId: Int!) {
-  resumes_experience {
+  resumes_experience(where: {created_by: {_eq: $userId}}) {
     id
     title
     location

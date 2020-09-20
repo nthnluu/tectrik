@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PageLayout from "../../components/PageLayout";
 import {Box, CardActionArea, Container, Fab, List, ListItem, Paper} from "@material-ui/core";
 import {useSession} from "next-auth/client";
@@ -15,6 +15,7 @@ const Resumes = ({session}) => {
 
     const [addModal, toggleAddModal] = useState(false)
     const [currentItem, setCurrentItem] = useState()
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleSubscription = (messages = [], response) => {
         return response;
@@ -29,7 +30,8 @@ const Resumes = ({session}) => {
 
     const {data, fetching, error} = res
 
-    if (!data) return null
+
+    useEffect(() => setIsLoading(!data), [data])
 
     return (
         <>
@@ -37,7 +39,7 @@ const Resumes = ({session}) => {
                 toggleAddModal(false)
                 setTimeout(() => setCurrentItem(undefined), 500)
             }}/>
-            <PageLayout title="Resumes" maxWidth="xl" sidebarConfig={SidebarConfig('week')}>
+            <PageLayout is_loading={isLoading} title="Resumes" maxWidth="xl" sidebarConfig={SidebarConfig('week')}>
                 <>
                     <section>
                         <Container>
@@ -46,30 +48,22 @@ const Resumes = ({session}) => {
                     </section>
                     <section>
                         <div className="max-w-2xl mx-auto">
-                            <Fab style={{
-                                right: 32,
-                                position: 'fixed',
-                                zIndex: 100,
-                                bottom: 32,
-                                height: 56,
-                                width: 150,
-                                borderRadius: 100
-                            }} variant="extended" color="primary"
-                                 onClick={() => toggleAddModal(true)}
-                            >
-                                <AddIcon/><span className="font-medium text-lg ml-1">Add item</span>
-                            </Fab>
                             <div>
                                 <Typography variant="h5" gutterBottom>Experience</Typography>
-                                <ul className="space-y-2">
+                                {isLoading ? null :  <ul className="space-y-2">
                                     {data.resumes_experience.map(experience => <li key={experience.id} className="paperCard overflow-hidden">
                                         <CardActionArea onClick={() => {
                                             setCurrentItem(experience)
                                             toggleAddModal(true)
                                         }}>
                                             <Box p={2}>
-                                                <h3 className="text-lg">{experience.title}</h3>
-                                                <Typography variant="body2" className="">{experience.start_date} - {experience.end_date}</Typography>
+                                                <div className="mb-1">
+                                                    <h3 className="text-lg text-gray-900">{experience.title}</h3>
+                                                    <h4 className="font-body font-medium text-gray-700">{experience.start_date} - {experience.end_date}</h4>
+                                                </div>
+                                                <p className="text-gray-600 whitespace-pre">
+                                                    {experience.responsibilities}
+                                                </p>
                                             </Box>
                                         </CardActionArea>
                                     </li>)}
@@ -81,7 +75,9 @@ const Resumes = ({session}) => {
                                             </Box>
                                         </CardActionArea>
                                     </li>
-                                </ul>
+                                </ul>}
+                                <p>{JSON.stringify(error)}</p>
+
 
                             </div>
 

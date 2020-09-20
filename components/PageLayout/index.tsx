@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSession} from "next-auth/client";
 import Navbar from "./Navbar";
 import Container from "@material-ui/core/Container";
@@ -13,16 +13,19 @@ interface Props {
     isPublic?: boolean;
     children: React.ReactChild;
     showLogo?: boolean;
-    sidebarConfig: SidebarConfigType[]
+    sidebarConfig: SidebarConfigType[];
+    is_loading?: boolean
 }
 
-const PageLayout: React.FC<Props> = ({title, showLogo, isPublic,
+const PageLayout: React.FC<Props> = ({title, showLogo, isPublic, is_loading,
                                          maxWidth,
     sidebarConfig,
                                          children
 }) => {
-    const [isLoading, toggleIsLoading] = useState(false)
+    const [isLoading, toggleIsLoading] = useState(is_loading)
     const [ session, loading ] = useSession()
+
+    useEffect(() => toggleIsLoading(is_loading), [is_loading])
 
     if (loading) {
         return null
