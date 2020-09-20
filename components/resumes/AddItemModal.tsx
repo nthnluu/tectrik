@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,9 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {TransitionProps} from '@material-ui/core/transitions';
-import {Box, Container, FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import {Formik} from 'formik';
-import {element} from "prop-types";
+import {Box, Container, LinearProgress, TextField} from "@material-ui/core";
+import {useMutation} from "urql";
+import {InsertExperience} from "../../src/gql/resumes/resume";
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -36,33 +33,71 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AddItemModal({onClose, isOpen}) {
+export default function AddItemModal({onClose, isOpen, session, currentItem}) {
     const classes = useStyles();
 
+    const [isLoading, toggleIsLoading] = useState(false)
     const [title, setTitle] = useState("")
     const [location, setLocation] = useState("")
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
     const [responsibilities, setResponsibilities] = useState("")
 
+    const [addExperienceResult, addExperience] = useMutation(InsertExperience);
+
     const validateForm = () => {
         const values = [title, location, startDate, endDate, responsibilities]
         return values.some(element => element.length < 1)
     }
 
+    const closeModal = () => {
+        toggleIsLoading(false)
+        setTitle("")
+        setLocation("")
+        setStartDate("")
+        setEndDate("")
+        setResponsibilities("")
+        onClose()
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert(validateForm())
+
+        toggleIsLoading(true)
+        addExperience({
+            experienceId: currentItem ? currentItem.id : uuidv4(),
+            title: title,
+            userId: session.id,
+            location: location,
+            startDate: startDate,
+            endDate: endDate,
+            responsibilities: responsibilities
+        })
+            .then(result => {
+                closeModal()
+            })
 
         // onClose()
     }
 
-    const handleChange = (event) => {
-
-    }
+    useEffect(() => {
+        if (currentItem) {
+            setTitle(currentItem.title)
+            setLocation(currentItem.location)
+            setStartDate(currentItem.start_date)
+            setEndDate(currentItem.end_date)
+            setResponsibilities(currentItem.responsibilities)
+        } else {
+            setTitle("")
+            setLocation("")
+            setStartDate("")
+            setEndDate("")
+            setResponsibilities("")
+        }
+    }, [currentItem])
 
     return (
-        <Dialog fullScreen open={isOpen} onClose={onClose} TransitionComponent={Transition}>
+        <Dialog fullScreen open={isOpen} onClose={closeModal} TransitionComponent={Transition}>
             <form autoComplete="off" onSubmit={handleSubmit}>
                 <AppBar className="border-b border-light-gray relative" position="relative" color="transparent"
                         elevation={0}>
@@ -71,25 +106,29 @@ export default function AddItemModal({onClose, isOpen}) {
                             <CloseIcon/>
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            New experience
+                            {currentItem ? `Edit ${currentItem.title}` : "New experience"}
                         </Typography>
-                        <Button type="submit" autoFocus disabled={validateForm()} color="primary" disableElevation variant="contained">
-                            <span className="font-semibold">Add</span>
+                        <Button type="submit" autoFocus disabled={validateForm() || isLoading} color="primary"
+                                disableElevation variant="contained">
+                            <span className="font-semibold">{currentItem ? `Sav${isLoading ? "ing..." : "e"}` : `Add${isLoading ? "ing..." : ""}`}</span>
                         </Button>
                     </Toolbar>
+                    {isLoading ? <LinearProgress/> : null}
                 </AppBar>
                 <Box mt={4}>
                     <Container maxWidth="sm">
                         <div className="space-y-4">
                             <Typography variant="h6">
-                                Add new experience
+                                {currentItem ? "Edit experience" : "Add new experience"}
                             </Typography>
                             <div className="flex-row space-y-4">
                                 {/*@ts-ignore*/}
-                                <TextField id="title" value={title} onChange={event => setTitle(event.target.value)} className="w-full"
+                                <TextField id="title" value={title} onChange={event => setTitle(event.target.value)}
+                                           className="w-full"
                                            label="Title" variant="outlined"/>
                                 {/*@ts-ignore*/}
-                                <TextField id="location" value={location} onChange={event => setLocation(event.target.value)}
+                                <TextField id="location" value={location}
+                                           onChange={event => setLocation(event.target.value)}
                                            className="w-full" label="Location" variant="outlined"/>
                             </div>
                             <div className="flex justify-between space-x-2">
@@ -102,7 +141,8 @@ export default function AddItemModal({onClose, isOpen}) {
                             </div>
                             <TextField multiline rows={5} id="responsibilities" className="w-full"
                                 //                                       @ts-ignore
-                                       value={responsibilities} onChange={event => setResponsibilities(event.target.value)}
+                                       value={responsibilities}
+                                       onChange={event => setResponsibilities(event.target.value)}
                                        label="Responsibilities" variant="outlined"/>
                         </div>
 

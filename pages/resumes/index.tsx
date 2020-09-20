@@ -7,17 +7,36 @@ import {SidebarConfig} from "../../components/meals/SidebarConfig";
 import AddIcon from '@material-ui/icons/Add';
 import Typography from "@material-ui/core/Typography";
 import AddItemModal from "../../components/resumes/AddItemModal";
+import {useSubscription} from "urql";
+import {PageContent} from "../../src/gql/resumes/resume";
 
 
-const Resumes = () => {
+const Resumes = ({session}) => {
 
-    const [session, loading] = useSession()
     const [addModal, toggleAddModal] = useState(false)
+    const [currentItem, setCurrentItem] = useState()
 
-    if (loading) return null
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
+
+    const [res] = useSubscription({
+        query: PageContent,
+        variables: {
+            userId: session.id
+        }
+    }, handleSubscription);
+
+    const {data, fetching, error} = res
+
+    if (!data) return null
 
     return (
         <>
+            <AddItemModal session={session} currentItem={currentItem} isOpen={addModal} onClose={() => {
+                toggleAddModal(false)
+                setTimeout(() => setCurrentItem(undefined), 500)
+            }}/>
             <PageLayout title="Resumes" maxWidth="xl" sidebarConfig={SidebarConfig('week')}>
                 <>
                     <section>
@@ -40,34 +59,21 @@ const Resumes = () => {
                             >
                                 <AddIcon/><span className="font-medium text-lg ml-1">Add item</span>
                             </Fab>
-                            <AddItemModal isOpen={addModal} onClose={() => toggleAddModal(false)}/>
                             <div>
                                 <Typography variant="h5" gutterBottom>Experience</Typography>
                                 <ul className="space-y-2">
-                                    <li className="paperCard overflow-hidden">
-                                        <CardActionArea>
+                                    {data.resumes_experience.map(experience => <li key={experience.id} className="paperCard overflow-hidden">
+                                        <CardActionArea onClick={() => {
+                                            setCurrentItem(experience)
+                                            toggleAddModal(true)
+                                        }}>
                                             <Box p={2}>
-                                                <h3 className="text-lg">San Diego County</h3>
-                                                <h4 className="">June 2019 - Present</h4>
+                                                <h3 className="text-lg">{experience.title}</h3>
+                                                <Typography variant="body2" className="">{experience.start_date} - {experience.end_date}</Typography>
                                             </Box>
                                         </CardActionArea>
-                                    </li>
-                                    <li className="paperCard overflow-hidden">
-                                        <CardActionArea>
-                                            <Box p={2}>
-                                                <h3 className="text-lg">San Diego County</h3>
-                                                <h4 className="">June 2019 - Present</h4>
-                                            </Box>
-                                        </CardActionArea>
-                                    </li>
-                                    <li className="paperCard overflow-hidden">
-                                        <CardActionArea>
-                                            <Box p={2}>
-                                                <h3 className="text-lg">San Diego County</h3>
-                                                <h4 className="">June 2019 - Present</h4>
-                                            </Box>
-                                        </CardActionArea>
-                                    </li>
+                                    </li>)}
+
                                     <li className="paperCardActive overflow-hidden">
                                         <CardActionArea onClick={() => toggleAddModal(true)}>
                                             <Box p={2} className="opacity-25">
@@ -87,4 +93,14 @@ const Resumes = () => {
 }
 
 
-export default Resumes
+const Page  = () => {
+    const [session, loading] = useSession()
+
+    if (!session) {
+        return null
+    } else {
+        return <Resumes session={session}/>
+    }
+}
+
+export default Page
