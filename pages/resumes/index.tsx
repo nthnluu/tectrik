@@ -68,7 +68,7 @@ const Resumes = ({session}) => {
                                         </CardActionArea>
                                     </li>)}
 
-                                    <li className="paperCardActive overflow-hidden">
+                                    <li className="paperCard shadow overflow-hidden">
                                         <CardActionArea onClick={() => toggleAddModal(true)}>
                                             <Box p={2} className="opacity-25">
                                                 <h3 className="text-lg">Add experience</h3>

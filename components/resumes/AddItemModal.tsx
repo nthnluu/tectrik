@@ -105,7 +105,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                         <IconButton edge="start" color="inherit" disabled={isLoading} onClick={onClose} aria-label="close">
                             <CloseIcon/>
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
+                        <Typography variant="h6" className={classes.title + " truncate pr-4"}>
                             {currentItem ? `Edit ${currentItem.title}` : "New experience"}
                         </Typography>
                         <Button type="submit" autoFocus disabled={validateForm() || isLoading} color="primary"
@@ -117,7 +117,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                 </AppBar>
                 <Box mt={4}>
                     <Container maxWidth="sm">
-                        <div className="space-y-4">
+                        <div className="space-y-4 font-body">
                             <Typography variant="h6">
                                 {currentItem ? "Edit experience" : "Add new experience"}
                             </Typography>

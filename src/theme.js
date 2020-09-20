@@ -27,7 +27,7 @@ const theme = createMuiTheme({
                 color: '#5F6367',
                 lineHeight: 1.2
             }
-        }
+        },
     },
     typography: {
         button: {
