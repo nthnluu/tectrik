@@ -77,12 +77,13 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                                                    className="w-full"
                                                    label="Title" variant="outlined"/>
                                         {/*@ts-ignore*/}
-                                        <div className="grid grid-cols-2 gap-2">
+                                        <div className="flex-row md:flex justify-between md:space-x-4">
                                             <KeyboardDatePicker
                                                 disabled={isLoading}
                                                 disablePast
                                                 inputVariant="outlined"
                                                 margin="normal"
+                                                className="w-full md:w-1/2"
                                                 id="date-picker-dialog"
                                                 label="Date"
                                                 format="MM/dd/yyyy"
@@ -98,6 +99,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                                                 margin="normal"
                                                 id="date-picker-dialog"
                                                 label="Time"
+                                                className="w-full md:w-1/2"
                                                 value={countdownTo}
                                                 onChange={date => setCountdownTo(date)}
                                                 KeyboardButtonProps={{
