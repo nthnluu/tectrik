@@ -121,7 +121,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                         </Button>
                         <Button onClick={handleSubmit} disabled={isLoading || !validateForm()} color="primary"
                                 variant="contained" disableElevation size="large">
-                            Create
+                            {currentItem ? "Save" : "Create"}
                         </Button>
                     </DialogActions>
                 </Box>
