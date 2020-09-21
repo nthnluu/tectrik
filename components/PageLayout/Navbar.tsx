@@ -22,6 +22,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {Avatar} from "@material-ui/core";
 import {SidebarConfigType} from "../../src/types/SidebarConfig";
+import DescriptionIcon from '@material-ui/icons/Description';
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -80,27 +82,21 @@ const SearchBar: React.FC<{}> = () => {
 const defaultSidebar = [
     {
         label: 'Dashboard',
-        icon: <HomeIcon/>,
+        icon: <HomeIcon color="primary"/>,
         selected: true,
         link: '/'
     },
     {
-        label: 'Porn Locker',
-        icon: <FavoriteIcon/>,
+        label: 'Resumes',
+        icon: <DescriptionIcon/>,
         selected: false,
-        link: '/porn'
+        link: '/resumes'
     },
     {
-        label: 'Meal Planner',
-        icon: <FastfoodIcon/>,
+        label: 'Countdowns',
+        icon: <AccessTimeIcon />,
         selected: false,
-        link: '/meals'
-    },
-    {
-        label: 'Workout Tracker',
-        icon: <FitnessCenterIcon/>,
-        selected: false,
-        link: '/porn'
+        link: '/countdowns'
     }
 ]
 
@@ -205,7 +201,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                             <ListItemText primary={item.label}/>
                         </ListItem>)}
 
-                        {currentSidebar ? <ListItem button onClick={() => {
+                        {sidebarConfig ? <ListItem className={classes.listItem} button onClick={() => {
                             handleClose();
                             router.push('/dashboard')
                         }}>
