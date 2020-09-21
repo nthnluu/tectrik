@@ -13,3 +13,9 @@ export const PageContent = gql`subscription PageContent ($userId: Int!) {
     countdown_to
   }
 }`
+
+export const DeleteCountdown = gql`mutation DeleteCountdown($countdownId: uuid!) {
+    delete_countdowns_countdown(where: {id: {_eq: $countdownId}}) {
+        __typename
+    }
+}`

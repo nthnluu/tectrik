@@ -7,7 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {useMutation} from "urql";
 import {v4 as uuidv4} from 'uuid';
 import {KeyboardDatePicker, MuiPickersUtilsProvider, KeyboardTimePicker} from '@material-ui/pickers';
-import {InsertCountdown} from "../../src/gql/countdowns/countdowns";
+import {DeleteCountdown, InsertCountdown} from "../../src/gql/countdowns/countdowns";
 
 
 export default function AddItemModal({onClose, isOpen, session, currentItem}) {
@@ -15,6 +15,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
     const [title, setTitle] = useState("")
     const [countdownTo, setCountdownTo] = useState(() => new Date)
 
+    const [deleteCountdownResult, deleteCountdown] = useMutation(DeleteCountdown);
     const [addCountdownResume, addCountdown] = useMutation(InsertCountdown);
 
     const validateForm = () => {
@@ -116,13 +117,29 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                         </Box>
                     </form>
                     <DialogActions>
-                        <Button onClick={closeModal} disabled={isLoading} color="secondary" size="large">
-                            Cancel
-                        </Button>
-                        <Button onClick={handleSubmit} disabled={isLoading || !validateForm()} color="primary"
-                                variant="contained" disableElevation size="large">
-                            {currentItem ? "Save" : "Create"}
-                        </Button>
+                        <div className="flex justify-between w-full">
+                            {currentItem ? <Button onClick={() => {
+                                toggleIsLoading(true)
+                                deleteCountdown({countdownId: currentItem.id})
+                                    .then(() => closeModal())
+                            }} disabled={isLoading} color="secondary" size="large"
+                                                    className="flex-grow-1">
+                                Delete
+                            </Button> : <div/>}
+
+
+                            <div className="space-x-2">
+                                <Button onClick={closeModal} disabled={isLoading} color="secondary" size="large">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleSubmit} disabled={isLoading || !validateForm()} color="primary"
+                                        variant="contained" disableElevation size="large">
+                                    {currentItem ? "Save" : "Create"}
+                                </Button>
+                            </div>
+                        </div>
+
+
                     </DialogActions>
                 </Box>
             </Dialog>

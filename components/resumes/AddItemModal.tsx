@@ -11,7 +11,7 @@ import Slide from '@material-ui/core/Slide';
 import {TransitionProps} from '@material-ui/core/transitions';
 import {Box, Container, LinearProgress, TextField} from "@material-ui/core";
 import {useMutation} from "urql";
-import {InsertExperience} from "../../src/gql/resumes/resume";
+import {DeleteExperience, InsertExperience} from "../../src/gql/resumes/resume";
 import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,6 +43,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
     const [endDate, setEndDate] = useState("")
     const [responsibilities, setResponsibilities] = useState("")
 
+    const [deleteExperienceResult, deleteExperience] = useMutation(DeleteExperience);
     const [addExperienceResult, addExperience] = useMutation(InsertExperience);
 
     const validateForm = () => {
@@ -117,7 +118,7 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                 </AppBar>
                 <Box mt={4}>
                     <Container maxWidth="sm">
-                        <div className="space-y-4 font-body">
+                        <div className="space-y-4 font-body mb-4">
                             <Typography variant="h6">
                                 {currentItem ? "Edit experience" : "Add new experience"}
                             </Typography>
@@ -146,6 +147,14 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                                        onChange={event => setResponsibilities(event.target.value)}
                                        label="Responsibilities" variant="outlined"/>
                         </div>
+                        {currentItem ? <Button onClick={() => {
+                            toggleIsLoading(true)
+                            deleteExperience({experienceId: currentItem.id})
+                                .then(() => closeModal())
+                        }} disabled={isLoading} color="secondary" variant="outlined" size="large"
+                                               className="flex-grow-1">
+                            Delete
+                        </Button> : <div/>}
 
                     </Container>
                 </Box>

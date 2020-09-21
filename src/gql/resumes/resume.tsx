@@ -16,3 +16,9 @@ export const PageContent = gql`subscription PageContent ($userId: Int!) {
     responsibilities
   }
 }`
+
+export const DeleteExperience= gql`mutation DeleteCountdown($experienceId: uuid!) {
+  delete_resumes_experience(where: {id: {_eq: $experienceId}}) {
+    __typename
+  }
+}`
