@@ -123,25 +123,26 @@ export default function AddItemModal({onClose, isOpen, session, currentItem}) {
                             </Typography>
                             <div className="flex-row space-y-4">
                                 {/*@ts-ignore*/}
-                                <TextField id="title" value={title} onChange={event => setTitle(event.target.value)}
+                                <TextField disabled={isLoading} id="title" autoFocus value={title} onChange={event => setTitle(event.target.value)}
                                            className="w-full"
                                            label="Title" variant="outlined"/>
                                 {/*@ts-ignore*/}
-                                <TextField id="location" value={location}
+                                <TextField disabled={isLoading} id="location" value={location}
                                            onChange={event => setLocation(event.target.value)}
                                            className="w-full" label="Location" variant="outlined"/>
                             </div>
                             <div className="flex justify-between space-x-2">
                                 {/*@ts-ignore*/}
-                                <TextField value={startDate} onChange={event => setStartDate(event.target.value)}
+                                <TextField disabled={isLoading} value={startDate} onChange={event => setStartDate(event.target.value)}
                                            id="start-date" className="w-1/2" label="Start Date" variant="outlined"/>
                                 {/*@ts-ignore*/}
-                                <TextField value={endDate} onChange={event => setEndDate(event.target.value)}
+                                <TextField disabled={isLoading} value={endDate} onChange={event => setEndDate(event.target.value)}
                                            id="end-date" className="w-1/2" label="End Date" variant="outlined"/>
                             </div>
                             <TextField multiline rows={5} id="responsibilities" className="w-full"
                                 //                                       @ts-ignore
                                        value={responsibilities}
+                                       disabled={isLoading}
                                        onChange={event => setResponsibilities(event.target.value)}
                                        label="Responsibilities" variant="outlined"/>
                         </div>

@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme) =>
         listItem: {
             borderTopRightRadius: 100,
             borderBottomRightRadius: 100,
-            "&$selected": {
+            "&.Mui-selected": {
                 color: '#1B67D2',
                 backgroundColor: "#E5EFFC",
                 "&:hover": {
                     backgroundColor: "#ebf3fd",
                 },
-            },
+            }
         }
     }),
 );
@@ -59,7 +59,7 @@ const SearchBar: React.FC<{}> = () => {
     return <>
         <div className="hidden md:block">
             <div
-                className={"ml-6 rounded-lg overflow-hidden flex justify-start border transition-all duration-150 " + (isFocused ? "bg-white border-gray-200 shadow" : "bg-light-gray-bg border-transparent")}>
+                className={"ml-6 rounded-lg overflow-hidden flex justify-start transition-all duration-150 " + (isFocused ? "bg-white activeSearch" : "bg-light-gray-bg border-transparent")}>
                 <IconButton>
                     <SearchIcon/>
                 </IconButton>
@@ -112,7 +112,7 @@ interface Props {
     sidebarConfig: SidebarConfigType[]
 }
 
-const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig = defaultSidebar}) => {
+const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig }) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -120,6 +120,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
     const router = useRouter()
 
 
+    const currentSidebar = sidebarConfig ? sidebarConfig : defaultSidebar
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -133,7 +134,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
     return (
         <>
             <div className={classes.root}>
-                <AppBar position="fixed" color="inherit" elevation={0} className="border-b border-light-gray">
+                <AppBar position="fixed" color="inherit" elevation={0} className={`border-light-gray ${!isLoading ? "border-b" : ""}`}>
                     <Toolbar>
                         <IconButton edge="start" onClick={() => toggleDrawer(true)}
                                     className={classes.menuButton + " focus:outline-none"} color="inherit"
@@ -142,7 +143,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                         </IconButton>
                         <div className="flex-grow flex items-center justify-start">
                             <Typography variant="h5">
-                                <div className="flex justify-start items-center text-gray-800">
+                                <div className={`flex justify-start items-center text-gray-800 ${!sidebarConfig ? "font-semibold" : ""}`}>
                                     {showLogo ? <> <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png"
                                                         className="h-6 mr-1"/>
                                         Tectrik</> : title}
@@ -195,7 +196,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                 <div style={{width: '18rem'}} className="pr-2">
                     <List className="space-y-1 relative h-full">
                         {/*// @ts-ignore*/}
-                        {sidebarConfig.map(item => <ListItem button className={classes.listItem}
+                        {currentSidebar.map(item => <ListItem button className={classes.listItem}
                                                              selected={item.selected} onClick={() => {
                             handleClose();
                             router.push(item.link)
@@ -204,7 +205,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                             <ListItemText primary={item.label}/>
                         </ListItem>)}
 
-                        {sidebarConfig ? <ListItem button onClick={() => {
+                        {currentSidebar ? <ListItem button onClick={() => {
                             handleClose();
                             router.push('/dashboard')
                         }}>

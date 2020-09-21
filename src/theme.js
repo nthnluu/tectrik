@@ -4,22 +4,10 @@ import {red} from '@material-ui/core/colors';
 // Create a theme instance.
 const theme = createMuiTheme({
     overrides: {
-        // MuiListItem: {
-        //     icon: {
-        //         fill: '#1B67D2',
-        //     },
-        //     root: {
-        //         borderTopRightRadius: 100,
-        //         borderBottomRightRadius: 100,
-        //         "&$selected": {
-        //             color: '#1B67D2',
-        //             backgroundColor: "#E5EFFC",
-        //             "&:hover": {
-        //                 backgroundColor: "#ebf3fd",
-        //             },
-        //         },
-        //     },
-        // },
+        MuiButtonBase: {
+            // The properties to apply
+            disableRipple: true // No more ripple, on the whole application!
+        },
         MuiTypography: {
             body2: {
                 fontFamily: `"Inter", "Helvetica", "Arial", sans-serif`,
@@ -41,7 +29,7 @@ const theme = createMuiTheme({
             main: '#4285F4',
         },
         secondary: {
-            main: '#19857b',
+            main: '#989898',
         },
         error: {
             main: red.A400,

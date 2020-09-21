@@ -37,14 +37,19 @@ const Dashboard = () => {
         appName: "Resumes",
         href: "/resumes",
         image: "resume.svg"
+    }, {
+        title: "View countdowns",
+        caption: "Create and view countdowns to important dates.",
+        appName: "Countdowns",
+        href: "/countdowns",
+        image: "timer.svg"
     }]
 
     return (<PageLayout title="Dashboard" maxWidth="xl" showLogo>
         <section>
-            <Container maxWidth="xs">
-                <img alt={session.name} src={session.picture} className="mx-auto rounded-full h-24 w-24 mb-4"/>
-                <Typography variant="h4" gutterBottom className="text-center text-gray-800">
-                    Welcome, {session.name}
+            <Container maxWidth="xs" className="mt-8">
+                <Typography variant="h4" gutterBottom className="text-center text-gray-800 font-semibold">
+                    Explore Tectrik Apps
                 </Typography>
             </Container>
             <Box my={8}>

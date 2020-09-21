@@ -8,22 +8,27 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 export const SidebarConfig = (selected) => {
+    function getColor(current) {
+        return (current === selected) ? "primary" : "inherit"
+    }
+
+
     return [
         {
-            label: 'Weekly Plan',
-            icon: <ViewWeekIcon />,
+            label: 'My R',
+            icon: <ViewWeekIcon color={getColor('week')} />,
             selected: selected === 'week',
             link: '/meals'
         },
         {
             label: 'My Goals',
-            icon: <TimelineIcon />,
+            icon: <TimelineIcon color={getColor('goals')}/>,
             selected: selected === 'goals',
             link: '/porn/goals'
         },
         {
             label: 'Shopping List',
-            icon: <ShoppingCartIcon />,
+            icon: <ShoppingCartIcon color={getColor('list')}/>,
             selected: selected === 'list',
             link: '/porn/list'
         }

@@ -18,6 +18,8 @@ export default class MyDocument extends Document {
                     />
                     <link rel="stylesheet"
                           href="https://fonts.googleapis.com/css?family=Google+Sans"/>
+                    {/*<link rel="stylesheet"*/}
+                    {/*      href="https://fonts.googleapis.com/css?family=DM+Sans"/>*/}
                 </Head>
                 <body>
                 <Main/>
