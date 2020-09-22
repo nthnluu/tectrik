@@ -4,6 +4,11 @@ import {red} from '@material-ui/core/colors';
 // Create a theme instance.
 const theme = createMuiTheme({
     overrides: {
+        MuiPaper: {
+            elevation18: {
+                boxShadow: '0 1px 5px 1px rgba(0,0,0,.2)'
+            }
+        },
         MuiButtonBase: {
             // The properties to apply
             disableRipple: true // No more ripple, on the whole application!

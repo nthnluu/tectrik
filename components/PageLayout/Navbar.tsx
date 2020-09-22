@@ -109,20 +109,21 @@ interface Props {
 }
 
 
-function HideOnScroll(props) {
-    const {children, window} = props;
+function ElevationScroll(props) {
+    const { children, window } = props;
     // Note that you normally won't need to set the window ref as useScrollTrigger
     // will default to window.
     // This is only being set here because the demo is in an iframe.
-    const trigger = useScrollTrigger({target: window ? window() : undefined});
+    const trigger = useScrollTrigger({
+        disableHysteresis: true,
+        threshold: 0,
+        target: window ? window() : undefined,
+    });
 
-    return (
-        <Slide appear={false} direction="down" in={!trigger}>
-            {children}
-        </Slide>
-    );
+    return React.cloneElement(children, {
+        elevation: trigger ? 18 : 0,
+    });
 }
-
 const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -146,7 +147,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
         <>
             <div className={classes.root}>
 
-                <HideOnScroll>
+                <ElevationScroll>
                     <AppBar position="fixed" color="inherit" elevation={0}
                             className={`border-light-gray ${!isLoading ? "border-b" : ""}`}>
                         <Toolbar>
@@ -207,7 +208,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                         {isLoading ? <LinearProgress/> : null}
 
                     </AppBar>
-                </HideOnScroll>
+                </ElevationScroll>
 
 
             </div>
