@@ -20,7 +20,7 @@ import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import {useRouter} from 'next/router'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LinearProgress from "@material-ui/core/LinearProgress";
-import {Avatar} from "@material-ui/core";
+import {Avatar, Slide, useScrollTrigger} from "@material-ui/core";
 import {SidebarConfigType} from "../../src/types/SidebarConfig";
 import DescriptionIcon from '@material-ui/icons/Description';
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
@@ -94,7 +94,7 @@ const defaultSidebar = [
     },
     {
         label: 'Countdowns',
-        icon: <AccessTimeIcon />,
+        icon: <AccessTimeIcon/>,
         selected: false,
         link: '/countdowns'
     }
@@ -108,7 +108,22 @@ interface Props {
     sidebarConfig: SidebarConfigType[]
 }
 
-const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig }) => {
+
+function HideOnScroll(props) {
+    const {children, window} = props;
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({target: window ? window() : undefined});
+
+    return (
+        <Slide appear={false} direction="down" in={!trigger}>
+            {children}
+        </Slide>
+    );
+}
+
+const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarConfig}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -130,62 +145,71 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
     return (
         <>
             <div className={classes.root}>
-                <AppBar position="fixed" color="inherit" elevation={0} className={`border-light-gray ${!isLoading ? "border-b" : ""}`}>
-                    <Toolbar>
-                        <IconButton edge="start" onClick={() => toggleDrawer(true)}
-                                    className={classes.menuButton + " focus:outline-none"} color="inherit"
-                                    aria-label="menu">
-                            <MenuIcon/>
-                        </IconButton>
-                        <div className="flex-grow flex items-center justify-start">
-                            <Typography variant="h5">
-                                <div className={`flex justify-start items-center text-gray-800 ${!sidebarConfig ? "font-semibold" : ""}`}>
-                                    {showLogo ? <> <img src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png"
-                                                        className="h-6 mr-1"/>
-                                        Tectrik</> : title}
 
-                                </div>
-                            </Typography>
-                            <SearchBar/>
-                        </div>
-
-
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <Avatar className={classes.avatarSmall} alt={session.name} src={session.picture}/>
+                <HideOnScroll>
+                    <AppBar position="fixed" color="inherit" elevation={0}
+                            className={`border-light-gray ${!isLoading ? "border-b" : ""}`}>
+                        <Toolbar>
+                            <IconButton edge="start" onClick={() => toggleDrawer(true)}
+                                        className={classes.menuButton + " focus:outline-none"} color="inherit"
+                                        aria-label="menu">
+                                <MenuIcon/>
                             </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={() => {
-                                    handleClose();
-                                    router.push('/api/auth/signout')
-                                }}>Sign out</MenuItem>
-                            </Menu>
-                        </div>
+                            <div className="flex-grow flex items-center justify-start">
+                                <Typography variant="h5">
+                                    <div
+                                        className={`flex justify-start items-center text-gray-800 ${!sidebarConfig ? "font-semibold" : ""}`}>
+                                        {showLogo ? <> <img
+                                            src="https://sheetroom.s3.amazonaws.com/tectriklogo1.png"
+                                            className="h-6 mr-1"/>
+                                            Tectrik</> : title}
 
-                    </Toolbar>
-                    {isLoading ? <LinearProgress/> : null}
+                                    </div>
+                                </Typography>
+                                <SearchBar/>
+                            </div>
 
-                </AppBar>
+
+                            <div>
+                                <IconButton
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    <Avatar className={classes.avatarSmall} alt={session.name}
+                                            src={session.picture}/>
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={open}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={() => {
+                                        handleClose();
+                                        router.push('/api/auth/signout')
+                                    }}>Sign out</MenuItem>
+                                </Menu>
+                            </div>
+
+                        </Toolbar>
+                        {isLoading ? <LinearProgress/> : null}
+
+                    </AppBar>
+                </HideOnScroll>
+
+
             </div>
 
             <Drawer anchor="left" open={drawer} onClose={() => toggleDrawer(false)}>
@@ -193,7 +217,7 @@ const Navbar: React.FC<Props> = ({isLoading, title, session, showLogo, sidebarCo
                     <List className="space-y-1 relative h-full">
                         {/*// @ts-ignore*/}
                         {currentSidebar.map(item => <ListItem button className={classes.listItem}
-                                                             selected={item.selected} onClick={() => {
+                                                              selected={item.selected} onClick={() => {
                             handleClose();
                             router.push(item.link)
                         }}>
